@@ -1,0 +1,75 @@
+Dim RearPtr As Integer = -1
+    Dim FrontPtr As Integer = 0
+    Dim QueueFull As Integer = 5
+    Dim QueueLength As Integer = 0
+    Dim Queue() As Integer = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+    Dim UB As Integer = 4
+    Dim item As Integer
+
+    Sub Main()
+        Dim MenuChoice As Integer = 0
+        Do While MenuChoice <> 4
+            Console.Clear()
+            Console.WriteLine(" (1) to Add item to Queue(Enqueue)")
+            Console.WriteLine(" (2) to Remove item from Queue(Dequeue)")
+            Console.WriteLine(" (3) to print the Queue")
+            Console.WriteLine(" (4) to Exit menu")
+
+            MenuChoice = Console.ReadLine
+
+            Select Case MenuChoice
+                Case 1 : Enqueue()
+                Case 2 : Dequeue()
+                Case 3 : PrintQueue()
+                Case 4
+                Case Else
+                    Console.WriteLine("Invalid choice. please try again")
+            End Select
+        Loop
+        Console.ReadKey()
+
+    End Sub
+
+    Sub Enqueue()
+        Console.WriteLine("Enter a value for Queue")
+        item = Console.ReadLine
+
+        If QueueLength < QueueFull Then
+            If RearPtr < UB Then
+                RearPtr = RearPtr + 1
+            Else
+                RearPtr = 0
+            End If
+            QueueLength = QueueLength + 1
+            Queue(RearPtr) = item
+        Else
+            Console.WriteLine("Queue is full. No more item can be inserted!!")
+            Console.ReadKey()
+        End If
+    End Sub
+    
+    Sub Dequeue()
+        If QueueLength = 0 Then
+            Console.WriteLine("No item in Queue to delete (Underflow)!!!!")
+        Else
+            item = Queue(FrontPtr)
+            Queue(FrontPtr) = 0
+            If FrontPtr = UB Then
+                FrontPtr = 0
+            Else
+                FrontPtr = FrontPtr + 1
+            End If
+            QueueLength = QueueLength - 1
+        End If
+        Console.Write("The " & item & " is deleted from Queue at index (" & FrontPtr - 1 & ")")
+        Console.ReadKey()
+    End Sub
+
+    Sub PrintQueue()
+        Console.WriteLine("The Queue Elements")
+        Console.WriteLine("------------------")
+        For i = 0 To UB
+            Console.WriteLine("(" & i & ")-->" & Queue(i))
+        Next
+        Console.ReadKey()
+    End Sub
